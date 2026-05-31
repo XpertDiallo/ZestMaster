@@ -63,7 +63,7 @@ Les modifications sont conservées dans le stockage local du navigateur.
 ├── styles.css
 ├── app.js
 ├── assets/
-│   └── logo-zest.png
+│   └── logo-zest.svg
 ├── data/
 │   └── seed.js
 └── docs/
