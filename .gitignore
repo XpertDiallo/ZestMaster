@@ -1,0 +1,16 @@
+# Fichiers de verification locale
+zest-master-*.png
+assets/logo-zest.png
+
+# Systeme
+.DS_Store
+Thumbs.db
+
+# Dependances et sorties de build futures
+node_modules/
+dist/
+build/
+
+# Environnements locaux
+.env
+.env.*
