@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ZEST Master - Paramétrage CIMA</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navigation ZEST Master">
+        <div class="brand">
+          <img src="assets/logo-zest.svg" alt="ZEST" class="brand-logo">
+          <div>
+            <strong>ZEST Master</strong>
+            <span>Administration CIMA</span>
+          </div>
+        </div>
+
+        <button class="nav-item active" type="button" data-dashboard>
+          <span class="nav-mark">ZS</span>
+          <span>Vue d'ensemble</span>
+        </button>
+
+        <div id="domainNav" class="domain-nav"></div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Socle de configuration</p>
+            <h1 id="pageTitle">Vue d'ensemble ZEST Master</h1>
+          </div>
+          <div class="topbar-actions">
+            <span id="storageStatus" class="storage-pill">Local</span>
+            <button id="resetDataBtn" class="ghost-button" type="button" title="Réinitialiser les données de démonstration">
+              <span aria-hidden="true">↺</span>
+              <span>Réinitialiser</span>
+            </button>
+          </div>
+        </header>
+
+        <section id="dashboardView" class="dashboard-view">
+          <div class="intro-band">
+            <div>
+              <p class="eyebrow">Inspiré du Master Azentio</p>
+              <h2>Référentiels, validations, imports, historiques et règles métier génériques.</h2>
+            </div>
+            <div class="intro-actions">
+              <button id="openProductsBtn" class="primary-button" type="button">
+                <span aria-hidden="true">＋</span>
+                <span>Paramétrer les produits</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="metricsGrid" class="metrics-grid" aria-label="Indicateurs ZEST Master"></div>
+
+          <div class="dashboard-layout">
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Modules Master</p>
+                  <h2>Domaines configurés</h2>
+                </div>
+              </div>
+              <div id="domainSummary" class="domain-summary"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Contrôle</p>
+                  <h2>À valider</h2>
+                </div>
+              </div>
+              <div id="pendingList" class="pending-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="tableView" class="table-view hidden" aria-live="polite">
+          <div class="table-toolbar">
+            <div class="table-context">
+              <p id="tableDomain" class="eyebrow"></p>
+              <h2 id="tableTitle"></h2>
+              <p id="tableDescription"></p>
+            </div>
+
+            <div class="toolbar-actions" aria-label="Actions sur le référentiel">
+              <button id="newRecordBtn" class="primary-button" type="button" title="Créer un enregistrement">
+                <span aria-hidden="true">＋</span>
+                <span>Nouveau</span>
+              </button>
+              <button id="approveBtn" class="icon-action" type="button" title="Approuver la sélection">
+                <span aria-hidden="true">✓</span>
+                <span>Approuver</span>
+              </button>
+              <button id="cloneBtn" class="icon-action" type="button" title="Cloner la sélection">
+                <span aria-hidden="true">⧉</span>
+                <span>Cloner</span>
+              </button>
+              <button id="historyBtn" class="icon-action" type="button" title="Voir l'historique">
+                <span aria-hidden="true">◷</span>
+                <span>Historique</span>
+              </button>
+              <button id="exportBtn" class="icon-action" type="button" title="Exporter en CSV">
+                <span aria-hidden="true">⇩</span>
+                <span>Exporter</span>
+              </button>
+              <label class="icon-action file-action" title="Importer un JSON ZEST Master">
+                <span aria-hidden="true">⇧</span>
+                <span>Importer</span>
+                <input id="importInput" type="file" accept="application/json,.json">
+              </label>
+            </div>
+          </div>
+
+          <div class="filters-row">
+            <label class="search-box">
+              <span>Rechercher</span>
+              <input id="searchInput" type="search" placeholder="Code, libellé, pays, produit...">
+            </label>
+
+            <label class="select-box">
+              <span>Statut</span>
+              <select id="statusFilter">
+                <option value="all">Tous</option>
+                <option value="Brouillon">Brouillon</option>
+                <option value="À valider">À valider</option>
+                <option value="Approuvé">Approuvé</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="data-shell">
+            <div class="table-scroll">
+              <table>
+                <thead id="recordsHead"></thead>
+                <tbody id="recordsBody"></tbody>
+              </table>
+            </div>
+            <aside id="recordPreview" class="record-preview">
+              <p class="eyebrow">Sélection</p>
+              <h3>Aucun enregistrement</h3>
+              <p>Sélectionnez une ligne pour consulter ou modifier son détail.</p>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="recordDialog" class="record-dialog">
+      <form id="recordForm" method="dialog">
+        <div class="dialog-heading">
+          <div>
+            <p id="dialogMode" class="eyebrow"></p>
+            <h2 id="dialogTitle"></h2>
+          </div>
+          <button class="round-button" type="button" data-close-dialog title="Fermer">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div id="formFields" class="form-grid"></div>
+        <div class="dialog-actions">
+          <button id="deleteRecordBtn" class="danger-button" type="button">
+            <span aria-hidden="true">⌫</span>
+            <span>Supprimer</span>
+          </button>
+          <div>
+            <button class="ghost-button" type="button" data-close-dialog>Annuler</button>
+            <button class="primary-button" type="submit">
+              <span aria-hidden="true">✓</span>
+              <span>Enregistrer</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="historyDialog" class="history-dialog">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Traçabilité</p>
+          <h2 id="historyTitle">Historique</h2>
+        </div>
+        <button class="round-button" type="button" data-close-history title="Fermer">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div id="historyContent" class="history-content"></div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="data/seed.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
